@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs Book</title>
+</head>
+<body>
+    <header>
+        <h1>Blogs Book</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }}! <a href="{% url 'logout' %}">Log Out</a></p>
+            {% else %}
+                <p><a href="{% url 'login' %}">Log In</a> | <a href="{% url 'signup' %}">Sign Up</a></p>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+

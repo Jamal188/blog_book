@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Sign Up</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <div class="error">{{ form.password1.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <div class="error">{{ form.password2.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.phone_number.label_tag }}
+        {{ form.phone_number }}
+        {% if form.phone_number.errors %}
+            <div class="error">{{ form.phone_number.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.date_of_birth.label_tag }}
+        {{ form.date_of_birth }}
+        {% if form.date_of_birth.errors %}
+            <div class="error">{{ form.date_of_birth.errors }}</div>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.profile_picture.label_tag }}
+        {{ form.profile_picture }}
+        {% if form.profile_picture.errors %}
+            <div class="error">{{ form.profile_picture.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="submit">Sign Up</button>
+</form>
+{% endblock %}
