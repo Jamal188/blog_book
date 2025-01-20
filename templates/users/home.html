@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to the Home Page</h1>
+<h1>Welcome to your Home Page</h1>
 {% if user.is_authenticated %}
     <p>Hello, {{ user.username }}!</p>
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    <h1>your Blog Posts</h1>
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <p><em>Posted by {{ post.author.username }} on {{ post.date_created }}</em></p>
+	    <a href="{% url 'blogs:edit_blog_view' blog_id=post.id %}"><button>edit</button></a>
+	    <form action="{% url 'blogs:delete_blog_view' blog_id=post.id %}" method="post">
+		    {% csrf_token %} <button type="submit" class="delete_buttons">delete</button>
+	    </form>
+	</div>
+    {% endfor %}
+    <br>
+    <a href="{% url 'blogs:create_blog_view' %}"><button>Create a New Post</button></a>
+    <p><a href="{% url 'users:logout' %}"><button>Log Out</button></a></p>
 {% else %}
-    <p><a href="{% url 'login' %}">Log In</a> | <a href="{% url 'signup' %}">Sign Up</a></p>
+<p><a href="{% url 'users:login' %}"><button>Log In</button></a> <br> 
+<a href="{% url 'signup' %}"><button>Sign Up</button></a></p>
 {% endif %}
 {% endblock %}

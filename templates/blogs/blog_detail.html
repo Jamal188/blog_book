@@ -1,0 +1,6 @@
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<p>Author: {{ post.author }}</p>
+<p>Last Updated: {{ post.updated_at }}</p>
+
+<a href="{% url 'edit_blog' post.id %}">Edit Post</a>

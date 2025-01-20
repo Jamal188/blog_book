@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from .utils import generate_secret_code, send_secret_code_email
-
+from blogs.models import Blog
 # Create your views here.
 
 def signup(request):
@@ -46,15 +46,19 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()  # Get the authenticated user
             login(request, user)  # Log the user in
-            return redirect('home')  # Redirect to the home page
+            return redirect('/users/home')  # Redirect to the home page
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('/users/login')
 
 def home_view(request):
-    return render(request, 'users/home.html')
+     user_posts = Blog.objects.filter(author=request.user).order_by('-date_created')
+     context = {
+        'posts': user_posts,  # Pass the posts to the template
+    }
+     return render(request, 'users/home.html', context)
 
