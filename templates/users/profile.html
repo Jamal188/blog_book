@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <h1>Welcome to your Home Page</h1>
 {% if user.is_authenticated %}
     <p>Hello, {{ user.username }}!</p>
+    <a href="{% url 'blogs:create_blog_view' %}"><button>Create a New Post</button></a>
     <h1>your Blog Posts</h1>
     {% for post in posts %}
         <div>
@@ -17,7 +18,10 @@
 	</div>
     {% endfor %}
     <br>
-    <a href="{% url 'blogs:create_blog_view' %}"><button>Create a New Post</button></a>
+    <br>
+    <div>
+	    <button>settings</button>
+    </div>
     <p><a href="{% url 'users:logout' %}"><button>Log Out</button></a></p>
 {% else %}
 <p><a href="{% url 'users:login' %}"><button>Log In</button></a> <br> 

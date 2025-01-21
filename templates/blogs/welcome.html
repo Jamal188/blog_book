@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+	<h2> welcome to BlogsBook </h2>
+</div>
+
+<div>
+     <a href="{% url 'users:signup' %}">
+	     <button>signup</button>
+     </a>
+     <br>
+     <p>already have an account? <a href="{% url 'users:login' %}">login</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

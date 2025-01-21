@@ -14,7 +14,7 @@ def create_blog_view(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('/users/home') # return the blog list page
+            return redirect('/users/profile') # return the blog list page
     else :
         form = BlogForm()
     return render(request, 'blogs/create_blog.html', {'form':form})
@@ -41,7 +41,7 @@ def delete_blog_view(request, blog_id):
     post = get_object_or_404(Blog, id=blog_id)
     if request.method == 'POST':
         post.delete()
-        return redirect('/users/home')
+        return redirect('/users/profile')
     
 
 @login_required
@@ -50,4 +50,5 @@ def detail_blog_view(request, blog_id):
     return render(request, 'blogs/detail_view.html', {'blog': blog})
 
 
-
+def welcome_view(request):
+    return render(request, 'blogs/welcome.html')

@@ -12,7 +12,7 @@ def signup(request):
         if form.is_valid():            
             user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('/users/profile')
     else:
         form = SignUpForm()
     return render(request, 'users/signup.html', {'form': form})
@@ -27,7 +27,7 @@ def verify_code(request, user_id):
             user.secret_code = None
             user.save()
             login(request, user)
-            return redirect('home')
+            return redirect('/users/profile')
         # if invalid code:
         else :
             return render(request, 'users/verify_code.html', {'error': 'Invalid code', 'user_id' : user_id})
@@ -46,7 +46,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()  # Get the authenticated user
             login(request, user)  # Log the user in
-            return redirect('/users/home')  # Redirect to the home page
+            return redirect('/users/profile')  # Redirect to the home page
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
@@ -55,10 +55,10 @@ def logout_view(request):
     logout(request)
     return redirect('/users/login')
 
-def home_view(request):
+def profile_view(request):
      user_posts = Blog.objects.filter(author=request.user).order_by('-date_created')
      context = {
         'posts': user_posts,  # Pass the posts to the template
     }
-     return render(request, 'users/home.html', context)
+     return render(request, 'users/profile.html', context)
 
