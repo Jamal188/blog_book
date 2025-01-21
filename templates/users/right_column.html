@@ -1,0 +1,9 @@
+
+{% load static %}
+
+{% block content %}
+	<div>
+             <button>Settings</button>
+        </div>
+        <p><a href="{% url 'users:logout' %}"><button>Log Out</button></a></p>
+{% endblock %}

@@ -55,10 +55,24 @@ def logout_view(request):
     logout(request)
     return redirect('/users/login')
 
-def profile_view(request):
-     user_posts = Blog.objects.filter(author=request.user).order_by('-date_created')
-     context = {
-        'posts': user_posts,  # Pass the posts to the template
-    }
-     return render(request, 'users/profile.html', context)
+def left_column_view(request):
+    context = {
+            'user': request.user,
+            }
+    return render(request, 'users/left_column.html', context)
+
+def mid_column_view(request):
+    user_posts = Blog.objects.filter(author=request.user).order_by('-date_created')
+    context = {
+            'posts': user_posts,
+            }
+    return render(request, 'users/mid_column.html', context)
+
+def right_column_view(request):
+    return render(request, 'users/right_column.html')
+
+
+
+def profile_view(request):    
+     return render(request, 'users/profile.html')
 

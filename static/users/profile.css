@@ -1,0 +1,15 @@
+.profile-container {
+    display: grid;
+    grid-template-columns: 15% 70% 15%; /* 3 equal columns */
+    gap: 10px; /* Space between columns */
+    height: 100vh; /* Full viewport height */
+    padding: 10px; /* Optional: Add padding for better spacing */
+}
+
+.column {
+    border: 1px solid #ccc; /* Optional: Add borders for visibility */
+    padding: 10px;
+    overflow-y: auto; /* Enable scrolling for long content */
+    background-color: #f9f9f9; /* Optional: Add background color */
+}
+

@@ -1,30 +1,34 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
+
+{% block extra_css %}
+   
+    <link rel="stylesheet" href="{% static 'users/profile.css' %}">
+
+{% endblock %}
+
+
+
 {% block content %}
-<h1>Welcome to your Home Page</h1>
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}!</p>
-    <a href="{% url 'blogs:create_blog_view' %}"><button>Create a New Post</button></a>
-    <h1>your Blog Posts</h1>
-    {% for post in posts %}
-        <div>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-            <p><em>Posted by {{ post.author.username }} on {{ post.date_created }}</em></p>
-	    <a href="{% url 'blogs:edit_blog_view' blog_id=post.id %}"><button>edit</button></a>
-	    <form action="{% url 'blogs:delete_blog_view' blog_id=post.id %}" method="post">
-		    {% csrf_token %} <button type="submit" class="delete_buttons">delete</button>
-	    </form>
-	</div>
-    {% endfor %}
-    <br>
-    <br>
-    <div>
-	    <button>settings</button>
+
+<div class="profile-container">
+    <!-- Left Column -->
+    <div class="column" id="left-column" hx-get="{% url 'users:left_column' %}" hx-trigger="load" hx-swap="innerHTML">
+        <!-- Content will be loaded here dynamically -->
     </div>
-    <p><a href="{% url 'users:logout' %}"><button>Log Out</button></a></p>
-{% else %}
-<p><a href="{% url 'users:login' %}"><button>Log In</button></a> <br> 
-<a href="{% url 'signup' %}"><button>Sign Up</button></a></p>
-{% endif %}
+
+    <!-- Middle Column -->
+    <div class="column" id="middle-column" hx-get="{% url 'users:mid_column' %}" hx-trigger="load" hx-swap="innerHTML">
+        <!-- Content will be loaded here dynamically -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="column" id="right-column" hx-get="{% url 'users:right_column' %}" hx-trigger="load" hx-swap="innerHTML">
+        <!-- Content will be loaded here dynamically -->
+    </div>
+</div>
+
+
 {% endblock %}

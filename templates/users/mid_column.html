@@ -1,0 +1,20 @@
+
+{% load static %}
+
+{% block content %}
+        <a href="{% url 'blogs:create_blog_view'%}"><button>create new blog</button></a> <br>
+	{% for post in posts %}
+	    <div>
+		    <h2> {{ post.title }} </h2>
+		    <p> {{ post.content }} </p>
+                    <p><em>Posted by {{ post.author.username }} on {{ post.date_created }}</em></p>
+                    <a href="{% url 'blogs:edit_blog_view' blog_id=post.id %}"><button>Edit</button></a>
+                    <form action="{% url 'blogs:delete_blog_view' blog_id=post.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="delete_buttons">Delete</button>
+                    </form>
+	    </div>
+	{% endfor %}
+	
+
+{% endblock %}
