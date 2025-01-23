@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     {% block extra_css %} {% endblock %}
-
+    <!-- Load jQuery (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Block for additional JavaScript files -->
+    {% block extra_js %}{% endblock %}
 </head>
 <body>
     <header>

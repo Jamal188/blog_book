@@ -3,25 +3,26 @@ from django.contrib.auth.decorators import login_required
 from .models import Blog
 from .forms import BlogForm
 from django.utils import timezone
+from django.http import JsonResponse
+from django.core.serializers import serialize
 
-
-# create blog view
+# create blog view : used to create a blog 
 @login_required
 def create_blog_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST':  # ensuring post method is used
         form = BlogForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():       # ensuring the safety of the data
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('/users/profile') # return the blog list page
     else :
-        form = BlogForm()
+        form = BlogForm() 
     return render(request, 'blogs/create_blog.html', {'form':form})
 
 @login_required
 def edit_blog_view(request, blog_id):
-    post = get_object_or_404(Blog, id=blog_id)
+    post = get_object_or_404(Blog, id=blog_id)  # checking if the object exists 
     if request.method == 'POST':
         form = BlogForm(request.POST, instance=post)
 
@@ -33,8 +34,7 @@ def edit_blog_view(request, blog_id):
 
     return render(request,'blogs/edit_blog.html', {'form':form, 'post': post})
 
-def blog_list(request):
-    pass
+
 
 @login_required
 def delete_blog_view(request, blog_id):
@@ -51,4 +51,26 @@ def detail_blog_view(request, blog_id):
 
 
 def welcome_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return render(request, 'blogs/welcome.html')
+
+@login_required
+def load_blogs(request):
+    posts = Blog.objects.all().order_by('-date_created') # getting all the blogs posts from the db
+    posts_data = []
+    for post in posts:
+        posts_data.append({
+            "title": post.title,
+            "content": post.content,
+            "author": post.author.username,  # Include the author's username
+            "date_created": post.date_created.isoformat(),  # Format the date
+        })
+    return JsonResponse(posts_data, safe=False)  # Return the custom JSON response
+    
+
+
+@login_required
+def home(request):
+    return render(request, 'blogs/home.html')
+

@@ -24,4 +24,6 @@ urlpatterns = [
     path('blogs/', include('blogs.urls')),
     path('welcome', views.welcome_view),
     path('', redirect.as_view(url='welcome')),
+    path('home', views.home , name='home'),
+    path('load_blogs', views.load_blogs, name='load_blogs'),
 ]
