@@ -1,0 +1,3 @@
+{% for comment in comments %}
+    <p>{{ comment.user.username }}: {{ comment.content_comment }}</p>
+{% endfor %}

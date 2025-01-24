@@ -1,0 +1,9 @@
+
+<h3>Users who liked this blog:</h3>
+<ul>
+    {% for like in likes %}
+        <li>{{ like.user.username }}</li>
+    {% endfor %}
+</ul>
+
+

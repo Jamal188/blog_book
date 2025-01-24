@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Blog
-from .forms import BlogForm
+from .models import Blog, Comment, Like
+from .forms import BlogForm, CommentForm
 from django.utils import timezone
 from django.http import JsonResponse
 from django.core.serializers import serialize
@@ -50,6 +50,45 @@ def detail_blog_view(request, blog_id):
     return render(request, 'blogs/detail_view.html', {'blog': blog})
 
 
+
+@login_required
+def detail_blog_view22(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    comments = blog.comments.all().order_by('-date_created_comment')  # Get all comments
+    likes = blog.likes.all()  # Get all likes
+
+    if request.method == 'POST':
+        # Handle comment submission
+        if 'comment' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.blog = blog
+                comment.user = request.user
+                comment.save()
+                return redirect('blogs:detail_blog_view22', blog_id=blog.id)
+
+        # Handle like submission
+        elif 'like' in request.POST:
+            like, created = Like.objects.get_or_create(blog=blog, user=request.user)
+            if not created:
+                like.delete()  # Unlike if already liked
+            return redirect('blogs:detail_blog_view22', blog_id=blog.id)
+
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'blogs/detail_view22.html', {
+        'blog': blog,
+        'comments': comments,
+        'likes': likes,
+        'comment_form': comment_form,
+    })
+
+
+
+
+
 def welcome_view(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -74,3 +113,18 @@ def load_blogs(request):
 def home(request):
     return render(request, 'blogs/home.html')
 
+
+
+
+
+@login_required
+def load_comments(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    comments = blog.comments.all().order_by('-date_created_comment')
+    return render(request, 'blogs/comments.html', {'comments': comments})
+
+@login_required
+def load_likes(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    likes = blog.likes.all()
+    return render(request, 'blogs/likes.html', {'likes': likes})
