@@ -1,0 +1,67 @@
+    .blog-post {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .like-btn {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .like-btn:hover {
+        background-color: #f0f0f0;
+    }
+
+    .like-btn.liked {
+        color: #e74c3c;
+        border-color: #e74c3c;
+    }
+
+    .btn-toggle-comments {
+        margin-left: 15px;
+        padding: 8px 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    #comments-section {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .comment-form {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .htmx-indicator {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 3px solid #3498db;
+        animation: spin 1s linear infinite;
+        margin-left: 10px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .home-link {
+        display: block;
+        margin-top: 20px;
+    }

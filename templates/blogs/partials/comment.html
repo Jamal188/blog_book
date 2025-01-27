@@ -1,0 +1,8 @@
+<div class="comment" id="comment-{{ comment.id }}">
+    <div class="comment-header">
+       
+        <strong>{{ comment.user.username }}</strong>
+        <small>{{ comment.date_created_comment|timesince }} ago</small>
+    </div>
+    <p>{{ comment.content_comment }}</p>
+</div>

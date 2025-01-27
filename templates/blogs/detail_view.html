@@ -1,8 +1,78 @@
-<h1>{{ blog.title }}</h1>
-<p>{{ blog.content }}</p>
-<p>Author: {{ blog.author }}</p>
-<p>Last Updated: {{ blog.date_created }}</p>
+{% extends 'base.html'%}
 
-<a href="{% url 'users:profile' %}"><button>home</button></a>
+{% load static %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'blogs/comments_like.css' %}">
+
+{% endblock %}
 
 
+{% block content %}
+
+
+<div class="blog-post">
+    <h1>{{ blog.title }}</h1>
+    <p>{{ blog.content }}</p>
+    <p>Author: {{ blog.author }}</p>
+    <p>Last Updated: {{ blog.date_created }}</p>
+
+    <!-- Like Section -->
+    <div class="interaction-bar">
+        <div hx-target="this" hx-swap="outerHTML">
+            <button class="like-btn" 
+                    hx-post="{% url 'blogs:toggle_like' blog.id %}"
+                    hx-swap="outerHTML"
+                    hx-indicator="#like-indicator"
+		    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                ❤️ <span class="like-count">{{ blog.likes.count }}</span>
+                <span id="like-indicator" class="htmx-indicator"></span>
+            </button>
+        </div>
+
+        <!-- Comments Toggle -->
+        <button class="btn-toggle-comments"
+                hx-get="{% url 'blogs:load_comments' blog.id %}"
+                hx-trigger="click"
+                hx-target="#comments-section"
+                hx-swap="innerHTML"
+	        data-toggle-comments 
+		data-target="#comments-section"
+                data-state="hidden" >
+            Show Comments
+        </button>
+    </div>
+
+    <!-- Comments Section -->
+    <div id="comments-section" >
+        <!-- Comments loaded dynamically here -->
+    </div>
+
+    <!-- Comment Form -->
+    <form class="comment-form" 
+          hx-post="{% url 'blogs:handle_comment' blog.id %}"
+          hx-target="#comments-section"
+          hx-swap="afterbegin"
+          hx-indicator="#comment-indicator">
+        {% csrf_token %}
+        {{ comment_form.content_comment }}
+        <button type="submit" class="btn-post-comment">
+            Add Comment
+            <span id="comment-indicator" class="htmx-indicator"></span>
+        </button>
+    </form>
+
+    <a href="{% url 'users:profile' %}" class="home-link">
+        <button>Home</button>
+    </a>
+</div>
+
+<!-- HTMX & Scripts -->
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<script src="{% static 'blogs/js/comments.js' %}"></script>
+<script src="{% static 'blogs/js/likes2.js' %}"></script>
+
+
+
+{% endblock %}

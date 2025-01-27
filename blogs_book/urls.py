@@ -18,6 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from blogs import views
 from django.views.generic.base import RedirectView as redirect
+from django.views.decorators.csrf import ensure_csrf_cookie 
+from django.http import JsonResponse
+from django.conf import settings
+from django.conf.urls.static import static
+@ensure_csrf_cookie
+def csrf_token_view(request):
+    return JsonResponse({'csrfToken': request.META['CSRF_COOKIE']})
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
@@ -26,4 +34,8 @@ urlpatterns = [
     path('', redirect.as_view(url='welcome')),
     path('home', views.home , name='home'),
     path('load_blogs', views.load_blogs, name='load_blogs'),
+    path('csrf-token/', csrf_token_view, name='csrf-token'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -14,6 +14,11 @@ from pathlib import Path
 import os
 
 
+
+CSRF_COOKIE_HTTPONLY = False  # Required for JavaScript to read the CSRF cookie
+CSRF_USE_SESSIONS = False      # Use cookies, not sessions
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__name__).resolve().parent.parent
 
@@ -29,7 +34,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+MEDIA_URL = 'media/'  # URL prefix for media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where files are stored
 # Application definition
 
 INSTALLED_APPS = [

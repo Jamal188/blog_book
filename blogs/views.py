@@ -47,7 +47,38 @@ def delete_blog_view(request, blog_id):
 @login_required
 def detail_blog_view(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-    return render(request, 'blogs/detail_view.html', {'blog': blog})
+    comment_form = CommentForm()
+    context = {'blog': blog,'comment_form': comment_form,}
+    return render(request, 'blogs/detail_view.html', context)
+
+
+@login_required
+def handle_comment(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.blog = blog
+            comment.user = request.user
+            comment.save()
+            return render(request, 'blogs/partials/comment.html', {'comment': comment})
+        return JsonResponse({'error': 'Invalid comment'}, status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required
+def toggle_like(request, blog_id):
+    blog = get_object_or_404(Blog, id=blog_id)
+    like,created = Like.objects.get_or_create(blog=blog, user=request.user)
+    
+    if not created:
+        like.delete()
+        liked = False
+    else:
+        liked = True
+    context ={'blog': blog,'liked': liked,'csrf_token': request.META.get('CSRF_COOKIE', '')} 
+    return render(request, 'blogs/partials/like_count.html', context)
+
 
 
 

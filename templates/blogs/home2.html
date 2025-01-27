@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_js %}
+    <!-- Include HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.0"></script>
+    <!-- Include your custom JavaScript -->
+    <script src="{% static 'blogs/js/load_posts.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Home Page!</h1>
+    <div>
+        <a href="{% url 'users:profile' %}">
+            <button>Go to Profile</button>
+        </a>
+    </div>
+
+    <!-- List of Blogs -->
+    <div id="posts">
+        {% for blog in blogs %}
+            <div class="blog" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                <h2>{{ blog.title }}</h2>
+                <p>{{ blog.content }}</p>
+                <p>Author: {{ blog.author.username }}</p>
+                <p>Date: {{ blog.date_created }}</p>
+                <p><span id="like-count-{{ blog.id }}">{{ blog.likes.count }}</span> likes</p>
+                   <!-- Button to load comments -->
+                <button hx-get="{% url 'blogs:load_comments' blog.id %}" hx-target="#comments-{{ blog.id }}" hx-swap="innerHTML">
+                    Show Comments
+                </button>
+
+                <!-- Container for comments -->
+                <div id="comments-{{ blog.id }}"></div>                
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- JavaScript to handle dynamic loading -->
+    <script>
+        const LOAD_BLOGS_URL = "{% url 'load_blogs' %}";  // Use Django's url template tag
+
+        // Optional: Add JavaScript for additional functionality
+        document.addEventListener('htmx:afterSwap', function(event) {
+            if (event.detail.target.id.startsWith('comments-') || event.detail.target.id.startsWith('likes-')) {
+                // Handle dynamic content loading (e.g., show/hide buttons)
+                const blogId = event.detail.target.id.split('-')[1];
+                const showCommentsBtn = document.querySelector(`button[hx-target="#comments-${blogId}"]`);
+                const showLikesBtn = document.querySelector(`button[hx-target="#likes-${blogId}"]`);
+
+                if (event.detail.target.id.startsWith('comments-')) {
+                    showCommentsBtn.style.display = 'none';
+                } else if (event.detail.target.id.startsWith('likes-')) {
+                    showLikesBtn.style.display = 'none';
+                }
+            }
+        });
+</script>
+
+
+
+<script>
+    // Ensure HTMX is loaded and working
+    document.addEventListener('DOMContentLoaded', function() {
+        // Optional: Add event listeners for HTMX events
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            // Handle dynamic content loading (e.g., show/hide buttons)
+            if (event.detail.target.id.startsWith('comments-')) {
+                const blogId = event.detail.target.id.split('-')[1];
+                const showCommentsBtn = document.querySelector(`button[hx-target="#comments-${blogId}"]`);
+
+                // Hide the "Show Comments" button after comments are loaded
+                if (showCommentsBtn) {
+                    showCommentsBtn.style.display = 'none';
+                }
+            }
+        });
+
+        // Optional: Add event listeners for HTMX errors
+        document.body.addEventListener('htmx:responseError', function(event) {
+            console.error('HTMX request failed:', event.detail);
+        });
+    });
+</script>
+
+
+
+{% endblock %}
