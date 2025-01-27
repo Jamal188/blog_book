@@ -1,0 +1,26 @@
+{% load custom_filters %}
+<!-- templates/users/field_edit.html -->
+<form hx-post="{% url 'users:edit_field' field_name %}"
+      hx-target="closest .editable-field"
+      hx-swap="outerHTML"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    {% if field_name == 'date_of_birth' %}
+        <input type="date" 
+               name="{{ field_name }}" 
+               value="{{ user.date_of_birth|date:'Y-m-d' }}"
+               class="form-control">
+    {% else %}
+        <input type="text" 
+               name="{{ field_name }}" 
+               value="{{ user|get_attr:field_name }}"
+               class="form-control">
+    {% endif %}
+    <button type="submit">Save</button>
+    <button type="button" 
+            hx-get="{% url 'users:edit_field' field_name %}?cancel=true"
+            hx-target="closest .editable-field"
+            hx-swap="outerHTML">Cancel</button>
+</form>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}

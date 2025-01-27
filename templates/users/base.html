@@ -19,6 +19,12 @@
     <main>
         {% block content %}
         {% endblock %}
+	<script>
+    // Fix: Reprocess ALL new elements after swaps
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        htmx.process(event.detail.elt);
+    });
+</script>
     </main>
 </body>
 </html>

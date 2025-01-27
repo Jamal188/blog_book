@@ -3,7 +3,10 @@ from django.contrib.auth import login, logout
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from .utils import generate_secret_code, send_secret_code_email
-from blogs.models import Blog
+from blogs.models import Blog, Comment, Like
+from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse
+from django.core.exceptions import ValidationError
 # Create your views here.
 
 def signup(request):
@@ -76,3 +79,62 @@ def right_column_view(request):
 def profile_view(request):    
      return render(request, 'users/profile.html')
 
+
+@require_http_methods(["GET", "POST"])
+def edit_field(request, field_name):
+    user = request.user
+    if request.method == "POST":
+        try:
+            value = request.POST.get(field_name)
+            if field_name == 'date_of_birth':
+                # Convert string to date object
+                from datetime import datetime
+                value = datetime.strptime(value, '%Y-%m-%d').date()
+            
+            setattr(user, field_name, value)
+            user.full_clean()  # Validate all fields
+            user.save()
+            return render(request, 'users/field_display.html', {
+                'user': user,
+                'field_name': field_name
+            })
+        except (ValidationError, ValueError) as e:
+            # Handle validation errors
+            return render(request, 'users/field_edit.html', {
+                'user': user,
+                'field_name': field_name,
+                'error': str(e)
+            })
+    
+    # Handle cancel action
+    if request.GET.get('cancel'):
+        return render(request, 'users/field_display.html', {
+            'user': user,
+            'field_name': field_name
+        })
+
+    context = {
+        'user': user,
+        'field_name': field_name
+    }
+    
+    response = render(request, 'users/field_edit.html', context)
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+
+
+@require_http_methods(["GET", "POST"])
+# views.py
+def change_avatar(request):
+    if request.method == "POST":
+        # Handle upload logic
+        return render(request, 'users/avatar_display.html', {'user': request.user})
+    
+    if request.GET.get('cancel'):
+        # Return FULL display template (not partial form)
+        return render(request, 'users/avatar_display.html', {'user': request.user})
+    
+    return render(request, 'users/avatar_edit.html')

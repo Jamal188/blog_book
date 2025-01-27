@@ -11,6 +11,8 @@ urlpatterns = [
     path('mid-column/', views.mid_column_view, name='mid_column'),
     path('right-column/', views.right_column_view, name='right_column'),
     path('profile/', views.profile_view, name='profile'),
+    path('edit-field/<str:field_name>/', views.edit_field, name='edit_field'),
+    path('change-avatar/', views.change_avatar, name='change_avatar'),
 
 ]
 

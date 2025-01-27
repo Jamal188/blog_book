@@ -1,0 +1,15 @@
+{% load custom_filters %}
+
+<!-- templates/users/field_display.html -->
+<span class="editable-field"
+      hx-get="{% url 'users:edit_field' field_name %}" 
+      hx-trigger="click"
+      hx-target="this"
+      hx-swap="outerHTML"
+      style="cursor: pointer; border-bottom: 1px dashed #666;">
+    {% if field_name == 'date_of_birth' and user.date_of_birth %}
+        {{ user.date_of_birth|date:"M. j, Y" }}
+    {% else %}
+        {{ user|get_attr:field_name|default:"Click to add" }}
+    {% endif %}
+</span>

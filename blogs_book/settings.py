@@ -34,6 +34,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+HTMX = {
+    'HISTORY_CACHE_SIZE': 0  # Disable caching
+}
+
 MEDIA_URL = 'media/'  # URL prefix for media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where files are stored
 # Application definition

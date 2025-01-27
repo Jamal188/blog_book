@@ -1,17 +1,73 @@
-
 {% load static %}
-
 {% block content %}
 
-        <h2> User Info </h2>
-	{% if user.profile_picture %}
-	    <img src="{{ usr.profile_picture.url }}" alt="Profile Picture" style="width: 100px; height: 100px;">
-	{% else %}
-	    <img src="{% static 'users/images/placeholder.png' %}" alt="No Profile Picture" style="width: 100px; height: 100px;">
-	{% endif %}
-	<p>Username: {{ user.username }}</p>
-	{% if user.date_of_birth %}
-	    <p>Date of Birth: {{ user.date_of_birth }}</p>
-	{% endif %}
+<div class="profile-section" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <h2>User Info</h2>
+    
+    <!-- Profile Picture -->
+    <div class="editable-field">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" 
+                 style="width: 100px; height: 100px;"
+                 hx-get="{% url 'users:change_avatar' %}"
+                 hx-target="this"
+                 hx-swap="outerHTML">
+        {% else %}
+            <img src="{% static 'users/images/placeholder.png' %}" alt="No Profile Picture" 
+                 style="width: 100px; height: 100px;"
+                 hx-get="{% url 'users:change_avatar' %}"
+                 hx-target="this"
+                 hx-swap="outerHTML">
+        {% endif %}
+    </div>
+
+    <!-- Username -->
+    <div class="editable-field">
+        <p>Username: 
+            <span hx-get="{% url 'users:edit_field' 'username' %}" 
+                  hx-trigger="click"
+                  hx-target="this"
+                  hx-swap="outerHTML">
+                {{ user.username }}
+            </span>
+        </p>
+    </div>
+
+    <!-- Date of Birth -->
+    <div class="editable-field">
+        <p>Date of Birth: 
+            {% if user.date_of_birth %}
+            <span hx-get="{% url 'users:edit_field' 'date_of_birth' %}" 
+                  hx-trigger="click"
+                  hx-target="this"
+                  hx-swap="outerHTML">
+                {{ user.date_of_birth }}
+            </span>
+            {% else %}
+            <span class="add-info" 
+                  hx-get="{% url 'users:edit_field' 'date_of_birth' %}" 
+                  hx-trigger="click"
+                  hx-target="this"
+                  hx-swap="outerHTML">
+                Add date of birth
+            </span>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<style>
+.editable-field span {
+    cursor: pointer;
+    border-bottom: 1px dashed #666;
+}
+.editable-field span:hover {
+    background: #f5f5f5;
+}
+.add-info {
+    color: #666;
+    font-style: italic;
+}
+</style>
 
 {% endblock %}

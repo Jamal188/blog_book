@@ -23,6 +23,29 @@
     <main>
         {% block content %}
         {% endblock %}
+<script>
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    // Only reprocess elements with [hx-*] attributes in the swapped content
+    const swappedElement = event.detail.target;
+    
+    // For profile fields
+    if (swappedElement.closest('.editable-field')) {
+        htmx.process(swappedElement.querySelector('[hx-get]'));
+    }
+    
+    // For profile picture
+    if (swappedElement.matches('img[hx-get]')) {
+        htmx.process(swappedElement);
+    }
+});
+</script>
+<script>
+    // Force HTMX to reprocess elements after swap
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        
+        htmx.process(event.detail.elt);
+    });
+</script>
     </main>
 </body>
 </html>
