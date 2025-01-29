@@ -2,6 +2,7 @@
         hx-post="{% url 'blogs:toggle_like' blog.id %}"
         hx-target="this"
         hx-swap="outerHTML"
+	hx-trigger="click once"
         {% if liked %}data-liked="true"{% endif %}>
     ❤️ <span class="like-count">{{ blog.likes.count }}</span>
 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"> 

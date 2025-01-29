@@ -1,20 +1,13 @@
-{% extends 'base.html' %}
+
 {% load static %}
 
 {% block content %}
 
 
-    <h1>Welcome to Home Page!</h1>
-    <div>
-	    <a href="{% url 'users:profile' %}">
-                 <button>Go to Profile</button>
-            </a>
-
-    </div>
 
 
 <div class="blogs-container">
-    {% for blog in blogs %}
+    {% for blog in posts %}
     <div class="blog-post">
         <h2>{{ blog.title }}</h2>
         <p>{{ blog.content }}</p>
@@ -29,7 +22,7 @@
                 hx-target="#comments-{{ blog.id }}">
             Show Comments
         </button>
-        <div id="comments-{{ blog.id }}" class="comments-container" style="display: none;"></div>
+        <div id="comments-{{ blog.id }}" class="comments-container"></div>
 
         <!-- Likes Section -->
         <div hx-get="{% url 'blogs:toggle_like' blog.id %}"
@@ -40,8 +33,4 @@
     {% endfor %}
 </div>
 
-<!-- Include HTMX and scripts -->
-<script src="https://unpkg.com/htmx.org@1.8.5"></script>
-<script src="{% static 'blogs/js/likes2.js' %}"></script>
-<script src="{% static 'blogs/js/comments.js' %}"></script>
 {% endblock %}

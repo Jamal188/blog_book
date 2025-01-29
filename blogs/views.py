@@ -6,7 +6,8 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.core.serializers import serialize
 
-# create blog view : used to create a blog 
+
+
 @login_required
 def create_blog_view(request):
     if request.method == 'POST':  # ensuring post method is used
@@ -66,20 +67,30 @@ def handle_comment(request, blog_id):
         return JsonResponse({'error': 'Invalid comment'}, status=400)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
 @login_required
 def toggle_like(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
-    like,created = Like.objects.get_or_create(blog=blog, user=request.user)
     
-    if not created:
-        like.delete()
-        liked = False
+    if request.method == 'POST':
+        # Handle like toggling (create/delete)
+        like, created = Like.objects.get_or_create(blog=blog, user=request.user)
+        if not created:
+            like.delete()
+            liked = False
+        else:
+            liked = True
     else:
-        liked = True
-    context ={'blog': blog,'liked': liked,'csrf_token': request.META.get('CSRF_COOKIE', '')} 
+        # Handle GET: Check if the user has already liked the blog (no modification)
+        liked = Like.objects.filter(blog=blog, user=request.user).exists()
+    
+    # Return the updated like status/count (safe for both GET and POST)
+    context = {
+        'blog': blog,
+        'liked': liked,
+        'csrf_token': request.META.get('CSRF_COOKIE', '')
+    }
     return render(request, 'blogs/partials/like_count.html', context)
-
-
 
 
 @login_required
@@ -142,7 +153,9 @@ def load_blogs(request):
 
 @login_required
 def home(request):
-    return render(request, 'blogs/home.html')
+    blogs = Blog.objects.all().order_by('-date_created')
+    return render(request, 'blogs/home.html', {'blogs':blogs})
+
 
 
 

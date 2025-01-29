@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block content %}
+
+<!-- Include HTMX and scripts -->
+<script src="https://unpkg.com/htmx.org@1.8.5"></script>
+<script src="{% static 'blogs/js/likes2.js' %}"></script>
+<script src="{% static 'blogs/js/comments.js' %}"></script>
+
         <a href="{% url 'blogs:create_blog_view'%}"><button>create new blog</button></a> <br>
+	<div class="uses-posts">
 	{% for post in posts %}
 	    <div>
 		    <h2> {{ post.title }} </h2>
@@ -13,8 +20,29 @@
                         {% csrf_token %}
                         <button type="submit" class="delete_buttons">Delete</button>
                     </form>
+		    <!-- Like Section -->
+        	    <div class="like-section"
+                     hx-get="{% url 'blogs:toggle_like' post.id %}"
+                     hx-trigger="load">
+                     Loading likes...
+                    </div>
+                    <!-- Comments Section -->
+                   <div class="comments-section">
+                    <button class="toggle-comments"
+                            data-toggle-comments
+                            data-target="#comments-{{ post.id }}"
+                            hx-get="{% url 'blogs:load_comments' post.id %}"
+                            hx-trigger="click once"
+                            hx-target="#comments-{{ post.id }}">
+                           Show Comments ({{ post.comments.count }})
+                     </button>
+                     <div id="comments-{{ post.id }}" class="comments-container" ></div>
+                  </div>
+	    
 	    </div>
+
 	{% endfor %}
-	
+	</div>
+
 
 {% endblock %}
