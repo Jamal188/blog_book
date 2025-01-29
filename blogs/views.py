@@ -165,7 +165,9 @@ def home(request):
 def load_comments(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
     comments = blog.comments.all().order_by('-date_created_comment')
-    return render(request, 'blogs/comments.html', {'comments': comments})
+    comment_form = CommentForm()
+    context = {'comments': comments , 'comment_form':comment_form, 'blog':blog}
+    return render(request, 'blogs/comments.html', context)
 
 @login_required
 def load_likes(request, blog_id):

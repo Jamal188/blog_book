@@ -3,10 +3,12 @@
       hx-encoding="multipart/form-data"
       hx-target="closest .editable-field" 
       hx-swap="outerHTML">  
-  <input type="file" name="avatar" accept="image/*">
+  <input type="file" name="profile_picture" accept="image/*">
   <button type="submit">Upload</button>
   <button type="button" 
           hx-get="/users/change-avatar/?cancel=true"
           hx-target="closest .editable-field"
           hx-swap="outerHTML">Cancel</button>
 </form>
+
+

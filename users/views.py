@@ -127,14 +127,20 @@ def edit_field(request, field_name):
 
 
 @require_http_methods(["GET", "POST"])
-# views.py
 def change_avatar(request):
     if request.method == "POST":
-        # Handle upload logic
-        return render(request, 'users/avatar_display.html', {'user': request.user})
-    
+        if 'profile_picture' in request.FILES:
+            try:
+                # Add your validation logic here
+                user = request.user
+                user.profile_picture = request.FILES['profile_picture']
+                user.save()
+                return render(request, 'users/avatar_display.html', {'user': user})
+            except Exception as e:
+                return render(request, 'users/avatar_edit.html', {'error': str(e)})
+   
     if request.GET.get('cancel'):
         # Return FULL display template (not partial form)
         return render(request, 'users/avatar_display.html', {'user': request.user})
     
-    return render(request, 'users/avatar_edit.html')
+    return render(request, 'users/avatar_edit.html', {'user': request.user})
