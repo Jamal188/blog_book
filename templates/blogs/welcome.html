@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/welcome.css' %}">
+{% endblock %}
+
 {% block content %}
-<div>
-	<h2> welcome to BlogsBook </h2>
+<div class="welcome-container">
+    <h2 class="welcome-heading">Welcome to BlogsBook</h2>
 </div>
 
-<div>
-     <a href="{% url 'users:signup' %}">
-	     <button>signup</button>
-     </a>
-     <br>
-     <p>already have an account? <a href="{% url 'users:login' %}">login</a></p>
+<div class="auth-actions">
+    <a href="{% url 'users:signup' %}" class="auth-link">
+        <button class="btn btn-signup">Sign Up</button>
+    </a>
+    <br>
+    <p class="login-prompt">
+        Already have an account? 
+        <a href="{% url 'users:login' %}" class="login-link">Login</a>
+    </p>
 </div>
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

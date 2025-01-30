@@ -1,0 +1,43 @@
+/* Base three-column layout */
+.profile-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr 200px;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Loading states for dynamic columns */
+.profile-column {
+    min-height: 400px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .profile-layout {
+        grid-template-columns: 200px 1fr 180px;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .profile-column {
+        position: static !important;
+        min-height: auto;
+    }
+}

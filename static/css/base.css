@@ -1,0 +1,33 @@
+/* static/css/base.css */
+
+/* Base Color Scheme */
+:root {
+    --dark-blue: #0a192f;       /* Deep navy blue (your blog's main dark color) */
+    --light-blue: #f0f8ff;      /* Alice blue (main background) */
+    --accent-blue: #64ffda;     /* Cyan accent */
+}
+
+/* Apply to entire site */
+body {
+    background-color: var(--light-blue) !important; /* Light blue background */
+}
+
+/* Blogs Book Header */
+.site-header {
+    background: var(--dark-blue) !important; /* Dark blue header block */
+    color: white;
+}
+
+/* Blog Post Cards */
+.post-card {
+    background: white !important;       /* White content blocks */
+    border: 1px solid rgba(10, 25, 47, 0.1) !important;
+}
+
+/* Dark Blue Blocks (for sections you want dark) */
+.dark-block {
+    background: var(--dark-blue) !important;
+    color: white !important;
+    padding: 2rem;
+    border-radius: 8px;
+}

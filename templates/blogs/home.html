@@ -1,47 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 {% block content %}
-
-
-    <h1>Welcome to Home Page!</h1>
-    <div>
-	    <a href="{% url 'users:profile' %}">
-                 <button>Go to Profile</button>
-            </a>
-
+<div class="home-container">
+    <h1 class="page-title">Welcome to Home Page!</h1>
+    
+    <div class="profile-link-container">
+        <a href="{% url 'users:profile' %}" class="profile-link">
+           <button class="btn btn-profile">Go to Profile</button>
+        </a>
     </div>
 
+    
+        {% for blog in blogs %}
+        <div class="blogs-container">
 
-<div class="blogs-container">
-    {% for blog in blogs %}
-    <div class="blog-post">
-	    <a href="{% url 'blogs:detail_blog_view' blog.id %}">  <button> <h2>{{ blog.title }}</h2></button> </a>
-        <p>{{ blog.content }}</p>
-        <p>Posted by {{ blog.author.username }} on {{ blog.date_created }}</p>
+            <div class="blog-card" id="blog-{{ blog.id }}">
+                <a href="{% url 'blogs:detail_blog_view' blog.id %}" class="blog-link">
+                    <button class="btn blog-title-btn">
+                        <h2 class="blog-title">{{ blog.title }}</h2>
+                    </button>
+                </a>
+                <p class="blog-content">{{ blog.content }}</p>
+                <p class="blog-meta">
+                     Posted by <span class="blog-author">{{ blog.author.username }}</span> 
+                     on <span class="blog-date">{{ blog.date_created }}</span>
+                </p>
+	    </div>
+        
+	    <div class="interaction-buttons">
+ 
 
-        <!-- Comments Section -->
-        <button class="toggle-comments"
-                data-toggle-comments
-                data-target="#comments-{{ blog.id }}"
-                hx-get="{% url 'blogs:load_comments' blog.id %}"
-                hx-trigger="click once"
-                hx-target="#comments-{{ blog.id }}">
-            Show Comments
-        </button>
-        <div id="comments-{{ blog.id }}" class="comments-container" style="display: none;"></div>
-
-        <!-- Likes Section -->
-        <div hx-get="{% url 'blogs:toggle_like' blog.id %}"
-             hx-trigger="load">
-            Loading likes...
+                <div class="like-section"
+                     hx-get="{% url 'blogs:toggle_like' blog.id %}"
+                     hx-trigger="load">
+                     Loading likes...
+                </div>
+                <button class="btn-comment-btn"
+                    data-toggle-comments
+                    data-target="#comments-{{ blog.id }}"
+                    hx-get="{% url 'blogs:load_comments' blog.id %}"
+                    hx-trigger="click once"
+                    hx-target="#comments-{{ blog.id }}">
+                    Show Comments
+                </button>
+            
+            </div>
+             
+	    <div id="comments-{{ blog.id }}" class="comments-container"></div>
+	    <br>
         </div>
-    </div>
-    {% endfor %}
+       {% endfor %}
+    
 </div>
 
-<!-- Include HTMX and scripts -->
 <script src="https://unpkg.com/htmx.org@1.8.5"></script>
 <script src="{% static 'blogs/js/likes2.js' %}"></script>
 <script src="{% static 'blogs/js/comments.js' %}"></script>
 {% endblock %}
+

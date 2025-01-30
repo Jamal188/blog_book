@@ -1,9 +1,13 @@
-<button class="like-btn" 
-        hx-post="{% url 'blogs:toggle_like' blog.id %}"
-        hx-target="this"
-        hx-swap="outerHTML"
-	hx-trigger="click once"
-        {% if liked %}data-liked="true"{% endif %}>
-    ❤️ <span class="like-count">{{ blog.likes.count }}</span>
-<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"> 
-</button>
+<div class="like-container">
+    <button class="btn-like {% if liked %}btn-like--active{% endif %}" 
+            hx-post="{% url 'blogs:toggle_like' blog.id %}"
+            hx-target="this"
+            hx-swap="outerHTML"
+            hx-trigger="click once"
+            aria-label="Toggle like">
+        ❤️ <span class="like-counter">{{ blog.likes.count }}</span>
+        <div class="hidden-input">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+    </button>
+</div>

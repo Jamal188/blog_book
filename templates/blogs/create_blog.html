@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Blog</title>
-</head>
-<body>
-     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-    <h1>Create a New Blog</h1>
-    <form method="post" action="{% url 'blogs:create_blog_view' %}">
+
+<div class="form-container">
+    <h1 class="page-heading">Create a New Blog</h1>
+    <form class="blog-form" method="post" action="{% url 'blogs:create_blog_view' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-	<button type="submit">Submit</button>
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+        <button class="btn btn-submit" type="submit">Submit</button>
     </form>
-</body>
-</html>
+</div>
 

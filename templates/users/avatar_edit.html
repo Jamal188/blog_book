@@ -1,14 +1,24 @@
-<!-- templates/users/avatar_edit.html -->
-<form hx-post="/users/change-avatar/"
-      hx-encoding="multipart/form-data"
-      hx-target="closest .editable-field" 
-      hx-swap="outerHTML">  
-  <input type="file" name="profile_picture" accept="image/*">
-  <button type="submit">Upload</button>
-  <button type="button" 
-          hx-get="/users/change-avatar/?cancel=true"
-          hx-target="closest .editable-field"
-          hx-swap="outerHTML">Cancel</button>
-</form>
-
-
+<div class="avatar-form-container">
+    <form class="avatar-edit-form"
+          hx-post="/users/change-avatar/"
+          hx-encoding="multipart/form-data"
+          hx-target="closest .editable-field" 
+          hx-swap="outerHTML">
+        <div class="form-group">
+            <input type="file" 
+                   name="profile_picture" 
+                   accept="image/*" 
+                   class="file-input"
+                   id="avatar-upload">
+            <label for="avatar-upload" class="btn btn-upload">Choose File</label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-submit">Upload</button>
+            <button type="button" 
+                    class="btn btn-cancel"
+                    hx-get="/users/change-avatar/?cancel=true"
+                    hx-target="closest .editable-field"
+                    hx-swap="outerHTML">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,118 @@
+/* Auth Actions Container */
+.auth-actions {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(10, 25, 47, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text */
+}
+
+/* Signup Button Container */
+.auth-link {
+    display: block;
+    width: 100%;
+    text-align: center; /* Center button */
+    margin-bottom: 1.5rem; /* Replace <br> with margin */
+}
+
+/* Login Prompt Text */
+.login-prompt {
+    width: 100%;
+    text-align: center; /* Explicit center alignment */
+    margin: 0; /* Remove default paragraph margins */
+}
+/* Welcome Page Container */
+.welcome-container {
+    text-align: center;
+    padding: 4rem 1rem;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Main Heading */
+.welcome-heading {
+    font-size: 3rem;
+    color: #0a192f; /* Dark blue */
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(10, 25, 47, 0.1);
+}
+
+/* Auth Actions Container */
+.auth-actions {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(10, 25, 47, 0.1);
+}
+
+/* Signup Button */
+.btn-signup {
+    background: linear-gradient(135deg, #64ffda, #52eecb);
+    color: #0a192f !important;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.btn-signup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(100, 255, 218, 0.4);
+    background: linear-gradient(135deg, #52eecb, #40ddb8);
+}
+
+/* Login Link */
+.login-link {
+    color: #0a192f;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.login-link:hover {
+    color: #64ffda;
+    border-bottom-color: #64ffda;
+}
+
+/* Text Prompt */
+.login-prompt {
+    color: #667799;
+    font-size: 0.95rem;
+    margin-top: 1.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-heading {
+        font-size: 2.5rem;
+    }
+    
+    .auth-actions {
+        padding: 1.5rem;
+    }
+    
+    .btn-signup {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+}

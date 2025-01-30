@@ -1,0 +1,93 @@
+/* Login Container */
+.auth-container {
+    max-width: 500px;
+    margin: 6rem auto;
+    padding: 2.5rem;
+    background: rgba(10, 25, 47, 0.95); /* Dark blue */
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(10, 25, 47, 0.3);
+}
+
+/* Title */
+.auth-title {
+    color: #64ffda !important; /* Cyan */
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* Form Elements */
+.auth-form p {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    color: #ccd6f6 !important; /* Light blue-gray */
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 0.8rem;
+    background: #112240 !important; /* Dark blue */
+    border: 1px solid #233554 !important;
+    color: #ccd6f6 !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+    border-color: #64ffda !important;
+    box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1) !important;
+}
+
+/* Login Button */
+.btn-login {
+    background: linear-gradient(135deg, #64ffda, #52eecb);
+    color: #0a192f !important;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+}
+
+/* Signup Link */
+.auth-alt {
+    color: #8892b0;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.auth-link {
+    color: #64ffda !important;
+    text-decoration: none;
+    border-bottom: 1px dashed transparent;
+    transition: all 0.2s ease;
+}
+
+.auth-link:hover {
+    border-bottom-color: #64ffda;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .auth-container {
+        margin: 3rem 1rem;
+        padding: 1.5rem;
+    }
+    
+    .auth-title {
+        font-size: 1.75rem;
+    }
+}

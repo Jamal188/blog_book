@@ -1,52 +1,73 @@
-
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'blogs/css/posts.css' %}">
+<section class="blog-column">
+    <div class="blog-controls">
+        <button class="btn btn-create" 
+                hx-get="{% url 'blogs:create_blog_view'%}" 
+                hx-target="#blog_create">
+            Create New Blog
+        </button>
+    </div>
+    <div id="blog_create" class="blog-create-container"></div>
 
-<!-- Include HTMX and scripts -->
-<script src="https://unpkg.com/htmx.org@1.8.5"></script>
-<script src="{% static 'blogs/js/likes2.js' %}"></script>
-<script src="{% static 'blogs/js/comments.js' %}"></script>
+    <div class="blog-posts">
+        {% for post in posts %}
+        <article class="post-card" id="post-{{ post.id }}">
+            <div class="post-header">
+                <h2 class="post-title">{{ post.title }}</h2>
+                <p class="post-meta">
+                    Posted by <span class="post-author">{{ post.author.username }}</span>
+                    on <time class="post-date">{{ post.date_created }}</time>
+                </p>
+            </div>
 
-        <button hx-get="{% url 'blogs:create_blog_view'%}" hx-target="#blog_create">create new blog</button> <br>
-	<div id="blog_create"></div>
-	<div class="uses-posts">
-	{% for post in posts %}
-	<div id="blog-edit-{{ post.id }}">
-		    <h2> {{ post.title }} </h2>
-		    <p> {{ post.content }} </p>
-                    <p><em>Posted by {{ post.author.username }} on {{ post.date_created }}</em></p>
-		    <form action="{% url 'blogs:edit_blog_view' blog_id=post.id %}" method="post">
-			    {% csrf_token %}
-		            <button hx-get="{% url 'blogs:edit_blog_view' blog_id=post.id %}" hx-target="#blog-edit-{{ post.id }}">Edit</button>
-		    </form>
-                    <form action="{% url 'blogs:delete_blog_view' blog_id=post.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="delete_buttons">Delete</button>
-                    </form>
-		    <!-- Like Section -->
-        	    <div class="like-section"
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+            </div>
+
+            <div class="post-actions">
+                <form class="form-edit" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-edit" 
+                            hx-get="{% url 'blogs:edit_blog_view' blog_id=post.id %}" 
+                            hx-target="#post-{{ post.id }}">
+                        Edit
+                    </button>
+                </form>
+
+                <form class="form-delete" method="post" 
+                      action="{% url 'blogs:delete_blog_view' blog_id=post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </div>
+
+            <div class="post-interactions">
+                <div class="like-container" 
                      hx-get="{% url 'blogs:toggle_like' post.id %}"
                      hx-trigger="load">
-                     Loading likes...
-                    </div>
-                    <!-- Comments Section -->
-                   <div class="comments-section">
-                    <button class="toggle-comments"
-                            data-toggle-comments
+                    Loading likes...
+                </div>
+
+                <div class="comments-container">
+                    <button class="btn btn-comment-toggle"
                             data-target="#comments-{{ post.id }}"
                             hx-get="{% url 'blogs:load_comments' post.id %}"
                             hx-trigger="click once"
                             hx-target="#comments-{{ post.id }}">
-                           Show Comments ({{ post.comments.count }})
-                     </button>
-                     <div id="comments-{{ post.id }}" class="comments-container" ></div>
-                  </div>
-	    
-	    </div>
+                        Show Comments ({{ post.comments.count }})
+                    </button>
+                    <div id="comments-{{ post.id }}" class="comments-wrapper"></div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
 
-	{% endfor %}
-	</div>
-
-
+<script src="https://unpkg.com/htmx.org@1.8.5"></script>
+<script src="{% static 'blogs/js/likes2.js' %}"></script>
+<script src="{% static 'blogs/js/comments.js' %}"></script>
 {% endblock %}

@@ -6,46 +6,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blogs Book</title>
-    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     {% block extra_css %} {% endblock %}
-    <!-- Load jQuery (if needed) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Block for additional JavaScript files -->
     {% block extra_js %}{% endblock %}
 </head>
 <body>
-    <header>
-        <h1>Blogs Book</h1>
-       
-
+    <header class="site-header">
+        <h1 id="site-title">Blogs Book</h1>
     </header>
-    <main>
+    
+    <main class="main-content">
         {% block content %}
         {% endblock %}
-<script>
-document.body.addEventListener('htmx:afterSwap', function(event) {
-    // Only reprocess elements with [hx-*] attributes in the swapped content
-    const swappedElement = event.detail.target;
-    
-    // For profile fields
-    if (swappedElement.closest('.editable-field')) {
-        htmx.process(swappedElement.querySelector('[hx-get]'));
-    }
-    
-    // For profile picture
-    if (swappedElement.matches('img[hx-get]')) {
-        htmx.process(swappedElement);
-    }
-});
-</script>
-<script>
-    // Force HTMX to reprocess elements after swap
-    document.body.addEventListener('htmx:afterSwap', function(event) {
-        
-        htmx.process(event.detail.elt);
-    });
-</script>
     </main>
+
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            const swappedElement = event.detail.target;
+            
+            if (swappedElement.closest('.editable-field')) {
+                htmx.process(swappedElement.querySelector('[hx-get]'));
+            }
+            
+            if (swappedElement.matches('img[hx-get]')) {
+                htmx.process(swappedElement);
+            }
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            htmx.process(event.detail.elt);
+        });
+    </script>
 </body>
 </html>

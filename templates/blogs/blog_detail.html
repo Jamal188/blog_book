@@ -1,6 +1,10 @@
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-<p>Author: {{ post.author }}</p>
-<p>Last Updated: {{ post.updated_at }}</p>
+<div class="blog-detail-container">
+    <h1 class="blog-title">{{ post.title }}</h1>
+    <p class="blog-content">{{ post.content }}</p>
+    <div class="blog-meta">
+        <p class="blog-author">Author: {{ post.author }}</p>
+        <p class="blog-date">Last Updated: {{ post.updated_at }}</p>
+    </div>
+    <a href="{% url 'edit_blog' post.id %}" class="btn btn-edit">Edit Post</a>
+</div>
 
-<a href="{% url 'edit_blog' post.id %}">Edit Post</a>

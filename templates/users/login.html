@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
-{% block content %}
-<h2>Log In</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
-<p>Don't have an account? <a href="{% url 'users:signup' %}">Sign Up</a></p>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
 {% endblock %}
-
-
-
-
+{% block content %}
+<div class="auth-container">
+    <h2 class="auth-title">Log In</h2>
+    <form class="auth-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-login">Log In</button>
+    </form>
+    <p class="auth-alt">
+        Don't have an account? 
+        <a href="{% url 'users:signup' %}" class="auth-link">Sign Up</a>
+    </p>
+</div>
+{% endblock %}

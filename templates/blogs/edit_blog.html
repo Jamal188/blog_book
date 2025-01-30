@@ -1,7 +1,11 @@
-<h1>Edit Blog Post</h1>
-<form method="post" action="{% url 'blogs:edit_blog_view' post.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
+<div class="edit-blog-container">
+    <h1 class="edit-heading">Edit Blog Post</h1>
+    <form method="post" action="{% url 'blogs:edit_blog_view' post.id %}" class="edit-blog-form">
+        {% csrf_token %}
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn submit-btn">Save Changes</button>
+    </form>
+</div>
 

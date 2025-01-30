@@ -1,8 +1,13 @@
-<div class="comment" id="comment-{{ comment.id }}">
-    <div class="comment-header">
-       
-        <strong>{{ comment.user.username }}</strong>
-        <small>{{ comment.date_created_comment|timesince }} ago</small>
+<article class="comment-card" id="comment-{{ comment.id }}">
+    <header class="comment-header">
+        <div class="comment-meta">
+            <strong class="comment-author">{{ comment.user.username }}</strong>
+            <time class="comment-timestamp" datetime="{{ comment.date_created_comment|date:'c' }}">
+                {{ comment.date_created_comment|timesince }} ago
+            </time>
+        </div>
+    </header>
+    <div class="comment-body">
+        <p class="comment-content">{{ comment.content_comment }}</p>
     </div>
-    <p>{{ comment.content_comment }}</p>
-</div>
+</article>

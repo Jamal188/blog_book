@@ -1,0 +1,151 @@
+/* Blog post specific styles */
+.blog-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.post-title {
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.post-content {
+    color: #444;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Interaction styles */
+.like-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.btn-comment-toggle {
+    background: none;
+    border: none;
+    color: #007bff;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-comment-toggle:hover {
+    text-decoration: underline;
+}
+
+/* Like Button Scaling */
+.btn-like {
+    font-size: 2em;  /* Double the size */
+    padding: 0.75rem 1.5rem;  /* Larger click area */
+    border-radius: 50px !important;  /* Pill shape */
+    transition: transform 0.2s;
+}
+
+.like-counter {
+    font-size: 1.2em;  /* Make number bigger */
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Hover effect for emphasis */
+.btn-like:hover {
+    transform: scale(1.1);
+}
+
+/* Adjust spacing for enlarged button */
+.like-container {
+    margin: 2rem 0;  /* More breathing room */
+}
+
+
+/* Create Blog Button */
+.btn-create {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white !important;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-create::before {
+    content: "+";
+    font-weight: 300;
+    margin-right: 8px;
+    transition: transform 0.3s;
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-create:active {
+    transform: translateY(1px);
+}
+
+/* Comments Toggle Button */
+.btn-comment-toggle {
+    background: transparent;
+    border: 2px solid #2196F3;
+    color: #2196F3 !important;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-comment-toggle::after {
+    content: "↓";
+    margin-left: 8px;
+    font-size: 0.9em;
+    transition: transform 0.3s;
+}
+
+.btn-comment-toggle:hover {
+    background: rgba(33, 150, 243, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(33, 150, 243, 0.2);
+}
+
+.btn-comment-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+/* General Button Enhancements */
+.btn {
+    cursor: pointer;
+    font-family: 'Segoe UI', system-ui;
+    transition: all 0.2s ease;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+}
+
+

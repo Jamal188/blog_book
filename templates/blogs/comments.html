@@ -1,20 +1,23 @@
 {% for comment in comments %}
-    <div class="comment" id="comment-{{ comment.id }}">
-        <div class="comment-header">
-            <strong>{{ comment.user.username }}</strong>
-            <small>{{ comment.date_created_comment|timesince }} ago</small>
-        </div>
-        <p>{{ comment.content_comment }}</p>
+<div class="comment-card" id="comment-{{ comment.id }}">
+    <header class="comment-header">
+        <span class="comment-author">{{ comment.user.username }}</span>
+        <time class="comment-timestamp">{{ comment.date_created_comment|timesince }} ago</time>
+    </header>
+    <div class="comment-body">
+        <p class="comment-content">{{ comment.content_comment }}</p>
     </div>
+</div>
 {% endfor %}
-<form
-    hx-post="{% url 'blogs:handle_comment' blog.id %}"
-    hx-target="#comments-{{ blog.id }}"
-    hx-swap="afterbegin"
-    hx-on::after-request="if (event.detail.successful) this.reset()"
-    class="comment-form"
->
+
+<form class="comment-form"
+      hx-post="{% url 'blogs:handle_comment' blog.id %}"
+      hx-target="#comments-{{ blog.id }}"
+      hx-swap="afterbegin"
+      hx-on::after-request="if (event.detail.successful) this.reset()">
     {% csrf_token %}
-    {{ comment_form.content_comment }}
-    <button type="submit" class="btn-post">Post Comment</button>
+    <div class="form-group">
+        {{ comment_form.content_comment }}
+    </div>
+    <button type="submit" class="btn btn-post-comment">Post Comment</button>
 </form>

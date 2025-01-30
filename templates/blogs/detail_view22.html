@@ -1,122 +1,98 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
-
-<!-- blogs/templates/blogs/detail_view.html -->
-<h1>{{ blog.title }}</h1>
-<p>{{ blog.content }}</p>
-<p>Author: {{ blog.author.username }}</p>
-<p>Date Created: {{ blog.date_created }}</p>
-
-<!-- Like Section -->
-<div>
-    <form method="post" action="{% url 'blogs:detail_blog_view' blog.id %}">
-        {% csrf_token %}
-        <button type="submit" name="like">Like</button>
-    </form>
-    <span id="like-count">{{ blog.likes.count }}</span> Likes
-    <div id="like-list" style="display: none;">
-        <!-- Placeholder for likes -->
+<div class="blog-detail-container">
+    <h1 class="blog-title">{{ blog.title }}</h1>
+    <p class="blog-content">{{ blog.content }}</p>
+    <div class="blog-meta">
+        <p class="blog-author">Author: {{ blog.author.username }}</p>
+        <p class="blog-date">Date Created: {{ blog.date_created }}</p>
     </div>
-    <button id="show-likes-btn" hx-get="{% url 'blogs:load_likes' blog.id %}" hx-target="#like-list" hx-swap="innerHTML">
-        Show Likes
-    </button>
-    <button id="hide-likes-btn" style="display: none;" onclick="restoreInitialLikes()">
-        Hide Likes
-    </button>
+
+    <!-- Like Section -->
+    <div class="like-section">
+        <form class="like-form" method="post" action="{% url 'blogs:detail_blog_view' blog.id %}">
+            {% csrf_token %}
+            <button class="btn btn-like" type="submit" name="like">Like</button>
+        </form>
+        <span id="like-count" class="like-count">{{ blog.likes.count }}</span> Likes
+        <div id="like-list" class="like-list" style="display: none;"></div>
+        <div class="like-controls">
+            <button id="show-likes-btn" class="btn btn-control"
+                    hx-get="{% url 'blogs:load_likes' blog.id %}"
+                    hx-target="#like-list"
+                    hx-swap="innerHTML">
+                Show Likes
+            </button>
+            <button id="hide-likes-btn" class="btn btn-control" 
+                    style="display: none;" 
+                    onclick="restoreInitialLikes()">
+                Hide Likes
+            </button>
+        </div>
+    </div>
+
+    <!-- Comment Section -->
+    <div class="comment-section">
+        <h2 class="section-heading">Comments</h2>
+        <form class="comment-form" method="post" action="{% url 'blogs:detail_blog_view22' blog.id %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button class="btn btn-comment" type="submit" name="comment">Add Comment</button>
+        </form>
+
+        <div id="comments" class="comments-container">
+            {% if comments %}
+                <p class="comment-preview">{{ comments.0.user.username }}: {{ comments.0.content_comment }}</p>
+            {% else %}
+                <p class="no-comments">No comments yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="comment-controls">
+            <button id="show-comments-btn" class="btn btn-control"
+                    hx-get="{% url 'blogs:load_comments' blog.id %}"
+                    hx-target="#comments"
+                    hx-swap="innerHTML">
+                Show All Comments
+            </button>
+            <button id="hide-comments-btn" class="btn btn-control"
+                    style="display: none;"
+                    onclick="restoreInitialComments()">
+                Hide Comments
+            </button>
+        </div>
+    </div>
 </div>
 
-<!-- Add JavaScript to handle the "Show Likes" button -->
 <script>
-    document.addEventListener('htmx:afterSwap', function(event) {
-        if (event.detail.target.id === 'like-list') {
-            // Show the like list after loading
-            document.getElementById('like-list').style.display = 'block';
-            // Hide the "Show Likes" button
-            document.getElementById('show-likes-btn').style.display = 'none';
-        }
-    });
-</script>
-
-
-<!-- Add JavaScript to handle the "Hide Likes" button -->
-<script>
-    // Store the initial state of the like list (empty)
+    // Like functionality
     const initialLikes = document.getElementById('like-list').innerHTML;
-
-    // Function to restore the initial state of the like list
     function restoreInitialLikes() {
         document.getElementById('like-list').innerHTML = initialLikes;
-        document.getElementById('like-list').style.display = 'none'; // Hide the like list
-        document.getElementById('show-likes-btn').style.display = 'inline-block'; // Show "Show Likes"
-        document.getElementById('hide-likes-btn').style.display = 'none'; // Hide "Hide Likes"
+        document.getElementById('like-list').style.display = 'none';
+        document.getElementById('show-likes-btn').style.display = 'inline-block';
+        document.getElementById('hide-likes-btn').style.display = 'none';
     }
 
-    // HTMX event listener to toggle buttons
-    document.addEventListener('htmx:afterSwap', function(event) {
-        if (event.detail.target.id === 'like-list') {
-            // Show the like list and toggle buttons
-            document.getElementById('like-list').style.display = 'block'; // Show the like list
-            document.getElementById('show-likes-btn').style.display = 'none'; // Hide "Show Likes"
-            document.getElementById('hide-likes-btn').style.display = 'inline-block'; // Show "Hide Likes"
-        }
-    });
-</script>
-
-
-
-
-
-<!-- Comment Section -->
-<div>
-    <h2>Comments</h2>
-    <form method="post" action="{% url 'blogs:detail_blog_view22' blog.id %}">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit" name="comment">Add Comment</button>
-    </form>
-
-    <!-- Visible container for comments -->
-    <div id="comments">
-        {% if comments %}
-            <p>{{ comments.0.user.username }}: {{ comments.0.content_comment }}</p>
-        {% else %}
-            <p>No comments yet.</p>
-        {% endif %}
-    </div>
-
-    <!-- Buttons for toggling comments -->
-    <button id="show-comments-btn" hx-get="{% url 'blogs:load_comments' blog.id %}" hx-target="#comments" hx-swap="innerHTML">
-        Show All Comments
-    </button>
-    <button id="hide-comments-btn" style="display: none;" onclick="restoreInitialComments()">
-        Hide Comments
-    </button>
-</div>
-
-<!-- Add JavaScript to handle the "Hide Comments" button -->
-<script>
-    // Store the initial comments in a variable
+    // Comment functionality
     const initialComments = document.getElementById('comments').innerHTML;
-
-    // Function to restore the initial comments
     function restoreInitialComments() {
         document.getElementById('comments').innerHTML = initialComments;
         document.getElementById('show-comments-btn').style.display = 'inline-block';
         document.getElementById('hide-comments-btn').style.display = 'none';
     }
 
-    // HTMX event listener to toggle buttons
     document.addEventListener('htmx:afterSwap', function(event) {
+        if (event.detail.target.id === 'like-list') {
+            document.getElementById('like-list').style.display = 'block';
+            document.getElementById('show-likes-btn').style.display = 'none';
+            document.getElementById('hide-likes-btn').style.display = 'inline-block';
+        }
         if (event.detail.target.id === 'comments') {
-            // Show "Hide Comments" button and hide "Show All Comments" button
             document.getElementById('show-comments-btn').style.display = 'none';
             document.getElementById('hide-comments-btn').style.display = 'inline-block';
         }
     });
 </script>
-
-
 {% endblock %}

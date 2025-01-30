@@ -2,37 +2,43 @@
 
 {% load static %}
 
-
 {% block extra_css %}
-   
-    <link rel="stylesheet" href="{% static 'users/profile.css' %}">
-
+<link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'users/css/columns.css' %}">
 {% endblock %}
 
-
-
 {% block content %}
-
-<div class="profile-container">
+<div class="profile-layout">
     <!-- Left Column -->
-    <div class="column" id="left-column" hx-get="{% url 'users:left_column' %}" hx-trigger="load" hx-swap="innerHTML">
-        <!-- Content will be loaded here dynamically -->
-    </div>
+    <section class="profile-column left-column" 
+             id="left-column" 
+             hx-get="{% url 'users:left_column' %}" 
+             hx-trigger="load" 
+             hx-swap="innerHTML">
+        <!-- Dynamic content placeholder -->
+    </section>
 
     <!-- Middle Column -->
-    <div class="column" id="middle-column" hx-get="{% url 'users:mid_column' %}" hx-trigger="load" hx-swap="innerHTML">
-        <!-- Content will be loaded here dynamically -->
-    </div>
+    <main class="profile-column main-column" 
+          id="middle-column" 
+          hx-get="{% url 'users:mid_column' %}" 
+          hx-trigger="load" 
+          hx-swap="innerHTML">
+        <!-- Dynamic content placeholder -->
+    </main>
 
     <!-- Right Column -->
-    <div class="column" id="right-column" hx-get="{% url 'users:right_column' %}" hx-trigger="load" hx-swap="innerHTML">
-        <!-- Content will be loaded here dynamically -->
-    </div>
+    <aside class="profile-column right-column" 
+           id="right-column" 
+           hx-get="{% url 'users:right_column' %}" 
+           hx-trigger="load" 
+           hx-swap="innerHTML">
+        <!-- Dynamic content placeholder -->
+    </aside>
 </div>
-<!-- Include HTMX and scripts -->
+
+<!-- Scripts -->
 <script src="https://unpkg.com/htmx.org@1.8.5"></script>
 <script src="{% static 'blogs/js/likes2.js' %}"></script>
 <script src="{% static 'blogs/js/comments.js' %}"></script>
-
-
 {% endblock %}

@@ -1,13 +1,18 @@
-
 {% load static %}
-
 {% block content %}
-        <div>
-          <a href="{% url 'home' %}">
-              <button>Go to Home</button>
-          </a>
-	
-             <button>Settings</button>
+<aside class="right-column">
+    <div class="column-actions">
+        <div class="action-group">
+            <a href="{% url 'home' %}" class="nav-link">
+                <button class="btn btn-home">Home</button>
+            </a>
+            <button class="btn btn-settings">Settings</button>
         </div>
-        <p><a href="{% url 'users:logout' %}"><button>Log Out</button></a></p>
+        <div class="action-group">
+            <a href="{% url 'users:logout' %}" class="nav-link">
+                <button class="btn btn-logout">Log Out</button>
+            </a>
+        </div>
+    </div>
+</aside>
 {% endblock %}

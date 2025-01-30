@@ -1,15 +1,11 @@
-<!-- templates/users/avatar_display.html -->
-<div class="editable-field">
-  <img src="{{ user.profile_picture.url }}?{% now 'U' %}" 
-       alt="Profile Picture"
-       style="width: 100px; height: 100px;"
-       hx-get="/users/change-avatar/"
-       hx-target=".editable-field" 
-       hx-swap="outerHTML">  
+<div class="avatar-container editable-field">
+    <div class="avatar-wrapper">
+        <img src="{{ user.profile_picture.url }}?{% now 'U' %}" 
+             class="avatar-image"
+             alt="Profile Picture of {{ user.username }}"
+             loading="lazy"
+             hx-get="/users/change-avatar/"
+             hx-target=".editable-field" 
+             hx-swap="outerHTML">
+    </div>
 </div>
-
-<style>
-.editable-field img {
-  object-fit: cover;  /* Prevent alt text from showing below */
-}
-</style>

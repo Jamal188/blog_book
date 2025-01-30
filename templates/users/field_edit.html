@@ -1,26 +1,34 @@
 {% load custom_filters %}
-<!-- templates/users/field_edit.html -->
-<form hx-post="{% url 'users:edit_field' field_name %}"
-      hx-target="closest .editable-field"
-      hx-swap="outerHTML"
-      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    {% if field_name == 'date_of_birth' %}
-        <input type="date" 
-               name="{{ field_name }}" 
-               value="{{ user.date_of_birth|date:'Y-m-d' }}"
-               class="form-control">
-    {% else %}
-        <input type="text" 
-               name="{{ field_name }}" 
-               value="{{ user|get_attr:field_name }}"
-               class="form-control">
+<div class="edit-form-container">
+    <form class="edit-form" 
+          hx-post="{% url 'users:edit_field' field_name %}"
+          hx-target="closest .editable-field"
+          hx-swap="outerHTML"
+          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        <div class="form-group">
+            {% if field_name == 'date_of_birth' %}
+            <input type="date" 
+                   name="{{ field_name }}" 
+                   value="{{ user.date_of_birth|date:'Y-m-d' }}"
+                   class="form-input date-input">
+            {% else %}
+            <input type="text" 
+                   name="{{ field_name }}" 
+                   value="{{ user|get_attr:field_name }}"
+                   class="form-input text-input">
+            {% endif %}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-save">Save</button>
+            <button type="button" 
+                    class="btn btn-cancel"
+                    hx-get="{% url 'users:edit_field' field_name %}?cancel=true"
+                    hx-target="closest .editable-field"
+                    hx-swap="outerHTML">Cancel</button>
+        </div>
+    </form>
+    
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
     {% endif %}
-    <button type="submit">Save</button>
-    <button type="button" 
-            hx-get="{% url 'users:edit_field' field_name %}?cancel=true"
-            hx-target="closest .editable-field"
-            hx-swap="outerHTML">Cancel</button>
-</form>
-{% if error %}
-<div class="alert alert-danger">{{ error }}</div>
-{% endif %}
+</div>
