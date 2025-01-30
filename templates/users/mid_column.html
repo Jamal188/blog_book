@@ -8,17 +8,21 @@
 <script src="{% static 'blogs/js/likes2.js' %}"></script>
 <script src="{% static 'blogs/js/comments.js' %}"></script>
 
-        <a href="{% url 'blogs:create_blog_view'%}"><button>create new blog</button></a> <br>
+        <button hx-get="{% url 'blogs:create_blog_view'%}" hx-target="#blog_create">create new blog</button> <br>
+	<div id="blog_create"></div>
 	<div class="uses-posts">
 	{% for post in posts %}
-	    <div>
+	<div id="blog-edit-{{ post.id }}">
 		    <h2> {{ post.title }} </h2>
 		    <p> {{ post.content }} </p>
                     <p><em>Posted by {{ post.author.username }} on {{ post.date_created }}</em></p>
-                    <a href="{% url 'blogs:edit_blog_view' blog_id=post.id %}"><button>Edit</button></a>
+		    <form action="{% url 'blogs:edit_blog_view' blog_id=post.id %}" method="post">
+			    {% csrf_token %}
+		            <button hx-get="{% url 'blogs:edit_blog_view' blog_id=post.id %}" hx-target="#blog-edit-{{ post.id }}">Edit</button>
+		    </form>
                     <form action="{% url 'blogs:delete_blog_view' blog_id=post.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="delete_buttons">Delete</button>
+                            {% csrf_token %}
+                            <button type="submit" class="delete_buttons">Delete</button>
                     </form>
 		    <!-- Like Section -->
         	    <div class="like-section"

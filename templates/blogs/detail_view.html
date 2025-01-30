@@ -48,22 +48,7 @@
     <div id="comments-section" >
         <!-- Comments loaded dynamically here -->
     </div>
-
-    <!-- Comment Form -->
-    <form class="comment-form" 
-          hx-post="{% url 'blogs:handle_comment' blog.id %}"
-          hx-target="#comments-section"
-          hx-swap="afterbegin"
-          hx-indicator="#comment-indicator">
-        {% csrf_token %}
-        {{ comment_form.content_comment }}
-        <button type="submit" class="btn-post-comment">
-            Add Comment
-            <span id="comment-indicator" class="htmx-indicator"></span>
-        </button>
-    </form>
-
-    <a href="{% url 'users:profile' %}" class="home-link">
+    <a href="{% url 'home' %}" class="home-link">
         <button>Home</button>
     </a>
 </div>

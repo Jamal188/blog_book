@@ -16,7 +16,7 @@
 <div class="blogs-container">
     {% for blog in blogs %}
     <div class="blog-post">
-        <h2>{{ blog.title }}</h2>
+	    <a href="{% url 'blogs:detail_blog_view' blog.id %}">  <button> <h2>{{ blog.title }}</h2></button> </a>
         <p>{{ blog.content }}</p>
         <p>Posted by {{ blog.author.username }} on {{ blog.date_created }}</p>
 
