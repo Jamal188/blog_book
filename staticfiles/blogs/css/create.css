@@ -1,0 +1,43 @@
+/* Base button styles */
+.btn-submit {
+        padding: 10px 20px;
+    border: none;
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin: 5px 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: black; /* Black text for all buttons */
+
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Soft pink gradient */
+    color: #0a192f; /* Dark blue text */
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3); /* Shadow on hover */
+}
+
+.btn-cancel {
+        padding: 10px 20px;
+    border: none;
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin: 5px 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: black; /* Black text for all buttons */
+
+    background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Red gradient */
+    color: white;
+}
+
+.btn-cancel:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3); /* Shadow on hover */
+}
+

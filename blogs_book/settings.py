@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-k@f(f2!)7ff&87x(tz68hw9*t3zmaxun=eqgl4=vz5iltn^x2%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['blogs_book.local', '127.0.0.1']
 
 
 HTMX = {

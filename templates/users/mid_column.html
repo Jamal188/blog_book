@@ -1,4 +1,7 @@
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/column.css' %}">
+{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'blogs/css/posts.css' %}">
@@ -10,6 +13,7 @@
             Create New Blog
         </button>
     </div>
+    <br>
     <div id="blog_create" class="blog-create-container"></div>
 
     <div class="blog-posts">
@@ -51,8 +55,9 @@
                     Loading likes...
                 </div>
 
-                <div class="comments-container">
+                
                     <button class="btn btn-comment-toggle"
+			    data-toggle-comments
                             data-target="#comments-{{ post.id }}"
                             hx-get="{% url 'blogs:load_comments' post.id %}"
                             hx-trigger="click once"
@@ -60,7 +65,7 @@
                         Show Comments ({{ post.comments.count }})
                     </button>
                     <div id="comments-{{ post.id }}" class="comments-wrapper"></div>
-                </div>
+                
             </div>
         </article>
         {% endfor %}

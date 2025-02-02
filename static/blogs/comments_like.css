@@ -8,13 +8,14 @@
         padding: 8px 15px;
         border: 1px solid #ddd;
         border-radius: 20px;
-        background: white;
+        background: red;
         cursor: pointer;
         transition: all 0.3s ease;
+	color:#FF0000;
     }
 
     .like-btn:hover {
-        background-color: #f0f0f0;
+        background-color: #ff0000;
     }
 
     .like-btn.liked {
